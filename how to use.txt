@@ -3,3 +3,10 @@
 3. requirements: opencv and python
 4. terminal command: python try_cascade.py
 5. ps. try it in good light since, pc webcam has low resolution.
+
+
+
+
+1. run capture_smile.py 
+2. same procedur eand requirements
+3. it saves the images
