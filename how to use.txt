@@ -1,0 +1,5 @@
+1.run try_cascade.py
+2. press q to quit
+3. requirements: opencv and python
+4. terminal command: python try_cascade.py
+5. ps. try it in good light since, pc webcam has low resolution.
