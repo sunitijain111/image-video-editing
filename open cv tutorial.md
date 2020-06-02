@@ -29,3 +29,22 @@ cv2.imshow("ROI", roi) </br>
 cv2.waitKey(0) </br>
 
 **read the tutorial for drawing /putting text**
+
+## alpha beta blenging
+https://note.nkmk.me/en/python-opencv-numpy-alpha-blend-mask/#:~:text=Masking%20with%20OpenCV%3A%20cv2.,-bitwise_and()&text=cv2.,a%20mask%20image%20for%20src2%20.
+
+**dst = cv2.addWeighted(src1, 0.5, src2, 0.5, 0)** 
+add two images
+
+bitwise and tow images black remains black
+**dst = cv2.bitwise_and(src1, src2)**
+
+### resizing
+https://www.tutorialkart.com/opencv/python/opencv-python-resize-image/
+img= cv.resize(src, dimensions in tupple)
+width = 350
+height = 450
+dim = (width, height)
+ 
+#resize image
+**resized = cv2.resize(img, dim)**
