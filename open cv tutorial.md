@@ -30,7 +30,7 @@ cv2.waitKey(0) </br>
 
 **read the tutorial for drawing /putting text**
 
-## alpha beta blenging
+### alpha beta blenging
 https://note.nkmk.me/en/python-opencv-numpy-alpha-blend-mask/#:~:text=Masking%20with%20OpenCV%3A%20cv2.,-bitwise_and()&text=cv2.,a%20mask%20image%20for%20src2%20.
 
 **dst = cv2.addWeighted(src1, 0.5, src2, 0.5, 0)** 
@@ -48,3 +48,9 @@ dim = (width, height)
  
 #resize image
 **resized = cv2.resize(img, dim)**
+
+#### resize on e image into size of other
+
+src1 = cv2.imread('data/src/lena.jpg')
+src2 = cv2.imread('data/src/rocket.jpg')
+**src2 = cv2.resize(src2, src1.shape[1::-1])**
