@@ -1,7 +1,7 @@
 
 import cv2
 import datetime
-
+import os
 
 #these are the cascades: thay are already present in the opencv
 cascade_face = cv2.CascadeClassifier(cv2.data.haarcascades +'haarcascade_frontalface_default.xml') 
@@ -29,9 +29,9 @@ def detection(grayscale, img):
         ri_color = img[y_face:y_face+h_face, x_face:x_face+w_face] 
         
         # smile detection , 1.7 is the scale factor , 20 is the min neighbour
-        smile = cascade_smile.detectMultiScale(ri_grayscale, 1.7, 20)
+        smile = cascade_smile.detectMultiScale(ri_grayscale, 1.7, 30)
         
-        #dra rectangle on smile
+        #draw rectangle on smile
         for (x_smile, y_smile, w_smile, h_smile) in smile: 
             cv2.rectangle(ri_color,(x_smile, y_smile),(x_smile+w_smile, y_smile+h_smile), (255, 0, 130), 2)
     
@@ -41,12 +41,26 @@ def detection(grayscale, img):
 vc = cv2.VideoCapture(0) 
 
 while True:
+    #read status of camera and frame
     _, img = vc.read() 
+    
+    #convert image ot grayscale
     grayscale = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) 
+    
+    #reuslt from detection function
     final = detection(grayscale, img) 
+    
+    #showing captured image
     cv2.imshow('Video', final) 
+    
+    #name of our image, wiht current time , so that it has new name each time.
     string = "pic"+str(datetime.datetime.now())+".jpg"
-    cv2.imwrite(string,final)
+    
+    #path
+    path= "/media/suniti/Windows S/ml/face/data-stats/folder"
+    
+    #save image
+    cv2.imwrite(os.path.join(path, string),final)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break 
 
