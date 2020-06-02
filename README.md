@@ -15,4 +15,5 @@
       
    ##**min neighbours**
      it tells how many nieghbours u need with the current neighbour to aprove it. example if min neighbour is 0 : a lot of false positives are detected but as we increase they will decrease since they false positives have no/ less eighbours.
-    links: [The scaleFactor parameter determines a trade-off between detection accuracy and speed. The detection window starts out at size minSize, and after testing all windows of that size, the window is scaled up by scaleFactor and re-tested, and so on until the window reaches or exceeds maxSize. If scaleFactor is large (eg. 2.0), of course there will be fewer steps, so detection is faster, but you may miss objects whose size is in between two tested scales. But Haar-like features are inherently robust to some small variation in scale, so there's no need to make scaleFactor very small (eg. 1.001); that just wastes time with needless steps. That is why the default is 1.3 and not something smaller.] 
+    links: https://stackoverflow.com/questions/51132674/meaning-of-parameters-of-detectmultiscalea-b-c
+    
