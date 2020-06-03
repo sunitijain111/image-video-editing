@@ -6,7 +6,7 @@ import os
 cascade_face = cv2.CascadeClassifier(cv2.data.haarcascades +'haarcascade_frontalface_default.xml') 
 cascade_smile = cv2.CascadeClassifier(cv2.data.haarcascades +'haarcascade_smile.xml')
 
-#function ot detect teh face
+#function ot detect the face
 
 # gray image of our face, original image:
 def detection(grayscale, img):
@@ -23,7 +23,7 @@ def detection(grayscale, img):
         #area of intreset in gray image
         ri_grayscale = grayscale[y_face:y_face+h_face, x_face:x_face+w_face]
         
-        #area of intrest in cooloured image
+        #area of intrest in coloured image
         ri_color = img[y_face:y_face+h_face, x_face:x_face+w_face] 
         
         # smile detection , 1.7 is the scale factor , 20 is the min neighbour
@@ -32,17 +32,22 @@ def detection(grayscale, img):
         #draw rectangle on smile ## uncomment to add rectangle to smile
         for (x_smile, y_smile, w_smile, h_smile) in smile: 
             #cv2.rectangle(ri_color,(x_smile, y_smile),(x_smile+w_smile, y_smile+h_smile), (255, 0, 130), 2)
-            ##added code **************************
-            #import image
+            
+            #import image of tongue
             img_tongue= cv2.imread('tongue.png',-1)
             #cv2.imshow('image', img_tongue) 
             
-            #rectngle
+            #rectngle of smile , uncomment it to see rectangle of smile
             #cv2.rectangle(ri_color,(x_smile, y_smile),(x_smile+w_smile, y_smile+h_smile), (255, 0,225), 2)    
 
+            #depth of tongue, width
             dept_tong, width_tong= img_tongue.shape[:2]
+            
+            #make width to that of 1/3rd of smile
             width_for_tongue= w_smile/3
             scale=   width_for_tongue/width_tong
+            
+            #adjust dept to same but maintining te aspect ratio
             depth_for_tongue= scale* dept_tong
             width_for_tongue = int(width_for_tongue)
             depth_for_tongue = int(depth_for_tongue)
@@ -50,22 +55,30 @@ def detection(grayscale, img):
             ##roi tongue
             img_tongue= cv2.resize(img_tongue, (width_for_tongue, depth_for_tongue))
 
+            #finding centre of smile
             centre_smile_x= int(x_smile+ w_smile/2)
             centre_smile_y= int(y_smile+ h_smile/2)
+            
+            #finding the corrdinates for tongue
             x_tongue=int( centre_smile_x- width_for_tongue/2)
             y_tongue= int(centre_smile_y)
                 
+            #region of intrest for tongue
             roi_tongue= ri_color[y_tongue: y_tongue+depth_for_tongue, x_tongue: x_tongue+width_for_tongue]
+            
+            #mask it to black color
             ri_color[y_tongue: y_tongue+depth_for_tongue, x_tongue: x_tongue+width_for_tongue]= (255,255,255)
 
-            cv2.addWeighted(roi_tongue, 0.2,img_tongue, 0.8, 0)
+            #bitwise and the two rois
             temp= cv2.bitwise_and(roi_tongue,  img_tongue)
+            
+            #assign the temp to image
             ri_color[y_tongue: y_tongue+depth_for_tongue, x_tongue: x_tongue+width_for_tongue]=temp
             
             
        
     #return image        
-    return img #conmment it to return normal image
+    return img 
 
 
 
