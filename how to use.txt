@@ -1,4 +1,4 @@
-1.run try_cascade.py
+1.run try_cascade.py , it tryin g out cscade featuresi poencv
 2. press q to quit
 3. requirements: opencv and python
 4. terminal command: python try_cascade.py
@@ -7,6 +7,14 @@
 
 
 
-1. run capture_smile.py 
+1. run capture_smile.py . it captures the smile and saves it
 2. same procedur eand requirements
 3. it saves the images
+
+
+1. run try_open_cv.ipynb, it tries some image making in opencv
+2. open jupyter
+3 open notebook try_open_cv.ipynb
+
+1 run sticker.py, it detectes smile and adds stickerto the image
+2.commanad=> pytho sticker.py
