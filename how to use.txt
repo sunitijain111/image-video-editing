@@ -5,8 +5,6 @@
 5. ps. try it in good light since, pc webcam has low resolution.
 
 
-
-
 1. run capture_smile.py . it captures the smile and saves it
 2. same procedur eand requirements
 3. it saves the images
@@ -16,5 +14,9 @@
 2. open jupyter
 3 open notebook try_open_cv.ipynb
 
-1 run sticker.py, it detectes smile and adds stickerto the image
-2.commanad=> pytho sticker.py
+
+1 run sticker.py, it detectes smile and adds tongue sticker to the image whe you smile.
+2.commanad=> python sticker.py
+
+
+1. run sticker_ear_tongue.py . it adda ears and tongue to your face whe you smile.
