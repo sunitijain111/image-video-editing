@@ -17,3 +17,16 @@
      it tells how many nieghbours u need with the current neighbour to aprove it. example if min neighbour is 0 : a lot of false positives are detected but as we increase they will decrease since they false positives have no/ less eighbours.
     links: https://stackoverflow.com/questions/51132674/meaning-of-parameters-of-detectmultiscalea-b-c
     
+#4 **image parsing**
+w,h,temp= frame.shape
+for x in range(w):
+    for y in range(h):
+      try:  
+        a,b,c= frame[x,y]
+        if a>=200 and b>= 200 and c>=200:
+            frame[x,y]=[0,0,0]
+        #print(a,b,c)
+        #print("lal")
+      except IndexError:
+        #print('naa')
+        continue
