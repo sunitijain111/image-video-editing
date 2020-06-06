@@ -78,20 +78,14 @@ def detection(grayscale, img):
             #region of intrest for tongue
             roi_tongue= ri_color[y_tongue: y_tongue+depth_for_tongue, x_tongue: x_tongue+width_for_tongue]
             
-            # # Now create a mask of logo and create its inverse mask also
-            # img2gray = cv2.cvtColor(img_tongue,cv2.COLOR_BGR2GRAY)
-            # ret, mask = cv2.threshold(img2gray, 10, 255, cv2.THRESH_BINARY)
-            # mask_inv = cv2.bitwise_not(mask)
+            #making dimensions equal
+            min_d= min(roi_tongue.shape[0], img_tongue.shape[0])
+            min_w= min(roi_tongue.shape[1], img_tongue.shape[1])
+            roi_tongue= ri_color[y_tongue: y_tongue+min_d, x_tongue: x_tongue+min_w]
+            img_tongue= img_tongue[0: min_d,0: min_w]
             
             
-            # # Now black-out the area of logo in ROI
-            # img1_bg = cv2.bitwise_and(roi_tongue,roi_tongue,mask = mask_inv)
-            # cv2.imshow('Video', img1_bg) 
-            
-            # # Take only region of logo from logo image.
-            # img2_fg = cv2.bitwise_and(img_tongue,img_tongue,mask = mask)
-
-            # Put logo in ROI and modify the main image
+            #adding htem 
             dst = cv2.addWeighted(roi_tongue, 0.9,img_tongue,0.5, 0)
             ri_color[y_tongue: y_tongue+depth_for_tongue, x_tongue: x_tongue+width_for_tongue] = dst
 
