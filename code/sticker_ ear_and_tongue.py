@@ -1,7 +1,7 @@
 import cv2
 import datetime
 import os
-
+import numpy as np
 #these are the cascades: thay are already present in the opencv
 cascade_face = cv2.CascadeClassifier(cv2.data.haarcascades +'haarcascade_frontalface_default.xml') 
 cascade_smile = cv2.CascadeClassifier(cv2.data.haarcascades +'haarcascade_smile.xml')
@@ -53,9 +53,20 @@ def detection(grayscale, img):
             width_for_tongue = int(width_for_tongue)
             depth_for_tongue = int(depth_for_tongue)
             
+            
             ##roi tongue
             img_tongue= cv2.resize(img_tongue, (width_for_tongue, depth_for_tongue))
 
+
+            # white to black
+            frame= img_tongue
+            #frame = cv2.imread("/home/ad/Desktop/1.png")
+            lower_black = np.array([0,0,0], dtype = "uint16")
+            upper_black = np.array([70,70,70], dtype = "uint16")
+            black_mask = cv2.inRange(frame, lower_black, upper_black)
+            frame[np.where((frame == [255,255,255]).all(axis = 2))] = [0,0,0]     # it works
+            img_tongue= frame
+            
             #finding centre of smile
             centre_smile_x= int(x_smile+ w_smile/2)
             centre_smile_y= int(y_smile+ h_smile/2)
@@ -87,20 +98,23 @@ def detection(grayscale, img):
 
             # ears
             ear_width= w_face
-            img_ear= cv2.imread('ears.png',-1)
+            img_ear= cv2.imread('bunny4.png',-1)
             h,w,c= img_ear.shape
             ratio= ear_width/w
             w= int(w*ratio)
             d= int(h*ratio)
             img_ear= cv2.resize(img_ear, (w,d))
-            #cv2.imshow('image3', img_ear)
-            #cv2.waitKey(0) 
-            #cv2.destroyAllWindows()
+
             roi_ear= img[y_face: y_face+d,x_face:x_face+w]
+           
+            min_d= min(roi_ear.shape[0], img_ear.shape[0])
+            min_w= min(roi_ear.shape[1], img_ear.shape[1])
+            roi_ear= img[y_face: y_face+min_d,x_face:x_face+min_w]
+            img_ear= img_ear[0: min_d,0: min_w]
             
-            dst = cv2.addWeighted(roi_ear, 0.9, img_ear, 0.5, 0)
-            img[y_face: y_face+d,x_face:x_face+w]= dst
-            #cv2.imshow('Video', img)
+            dst = cv2.addWeighted(roi_ear, 0.8, img_ear, 0.5, 0)
+            img[y_face: y_face+min_d,x_face:x_face+min_w]= dst
+            cv2.imshow('Video', img)
             #cv2.waitKey(0) 
             #cv2.destroyAllWindows()
        
