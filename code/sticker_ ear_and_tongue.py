@@ -121,7 +121,16 @@ def detection(grayscale, img):
 
 
 vc = cv2.VideoCapture(0) 
+#path
+path= os.getcwd()
 
+# Create directory
+dirName = 'tempimage_folder'
+try:
+        os.mkdir(dirName)
+except FileExistsError:
+        print("Directory " , dirName ,  " already exists")
+path= path+'/'+dirName
 cnt=0
 while cnt<500:
     #read status of camera and frame
@@ -139,8 +148,6 @@ while cnt<500:
     #name of our image, wiht current time , so that it has new name each time.
     string = "pic"+str(datetime.datetime.now())+".jpg"
     
-    #path
-    path= "/media/suniti/Windows S/ml/face/data-stats/folder"
     
     #save image
     cv2.imwrite(os.path.join(path, string),final)
