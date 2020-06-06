@@ -78,21 +78,21 @@ def detection(grayscale, img):
             #region of intrest for tongue
             roi_tongue= ri_color[y_tongue: y_tongue+depth_for_tongue, x_tongue: x_tongue+width_for_tongue]
             
-            # Now create a mask of logo and create its inverse mask also
-            img2gray = cv2.cvtColor(img_tongue,cv2.COLOR_BGR2GRAY)
-            ret, mask = cv2.threshold(img2gray, 10, 255, cv2.THRESH_BINARY)
-            mask_inv = cv2.bitwise_not(mask)
+            # # Now create a mask of logo and create its inverse mask also
+            # img2gray = cv2.cvtColor(img_tongue,cv2.COLOR_BGR2GRAY)
+            # ret, mask = cv2.threshold(img2gray, 10, 255, cv2.THRESH_BINARY)
+            # mask_inv = cv2.bitwise_not(mask)
             
             
-            # Now black-out the area of logo in ROI
-            img1_bg = cv2.bitwise_and(roi_tongue,roi_tongue,mask = mask_inv)
-            cv2.imshow('Video', img1_bg) 
+            # # Now black-out the area of logo in ROI
+            # img1_bg = cv2.bitwise_and(roi_tongue,roi_tongue,mask = mask_inv)
+            # cv2.imshow('Video', img1_bg) 
             
-            # Take only region of logo from logo image.
-            img2_fg = cv2.bitwise_and(img_tongue,img_tongue,mask = mask)
+            # # Take only region of logo from logo image.
+            # img2_fg = cv2.bitwise_and(img_tongue,img_tongue,mask = mask)
 
             # Put logo in ROI and modify the main image
-            dst = cv2.add(img1_bg,img2_fg)
+            dst = cv2.addWeighted(roi_tongue, 0.9,img_tongue,0.5, 0)
             ri_color[y_tongue: y_tongue+depth_for_tongue, x_tongue: x_tongue+width_for_tongue] = dst
 
 
@@ -105,15 +105,16 @@ def detection(grayscale, img):
             d= int(h*ratio)
             img_ear= cv2.resize(img_ear, (w,d))
 
-            roi_ear= img[y_face: y_face+d,x_face:x_face+w]
+                
+            roi_ear= img[y_face-d: y_face,x_face:x_face+w]
            
             min_d= min(roi_ear.shape[0], img_ear.shape[0])
             min_w= min(roi_ear.shape[1], img_ear.shape[1])
-            roi_ear= img[y_face: y_face+min_d,x_face:x_face+min_w]
+            roi_ear= img[y_face-min_d: y_face,x_face:x_face+min_w]
             img_ear= img_ear[0: min_d,0: min_w]
             
-            dst = cv2.addWeighted(roi_ear, 0.8, img_ear, 0.5, 0)
-            img[y_face: y_face+min_d,x_face:x_face+min_w]= dst
+            dst = cv2.addWeighted(roi_ear, 0.8, img_ear, 0.9, 0)
+            img[y_face-min_d: y_face,x_face:x_face+min_w]= dst
             cv2.imshow('Video', img)
             #cv2.waitKey(0) 
             #cv2.destroyAllWindows()
