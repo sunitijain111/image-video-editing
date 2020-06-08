@@ -18,5 +18,15 @@
 1 run sticker.py, it detectes smile and adds tongue sticker to the image whe you smile.
 2.commanad=> python sticker.py
 
-
 1. run sticker_ear_tongue.py . it adda ears and tongue to your face whe you smile.
+
+1. run sticker_wig.py . IT adds wig to your faec
+
+1. run blur_foreground.py blurs out the foregrond
+
+1. run blur_background.py . it blurs out the background.
+
+
+
+
+note: try_cascade, try_ope_cv.py , try_open_cv.py are temp file/ debug files
