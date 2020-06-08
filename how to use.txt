@@ -26,7 +26,7 @@
 
 1. run blur_background.py . it blurs out the background.
 
-
+1. choice_edit_image.py . it edits image to your choice, resize, flip, rotate, view, undo, etc.
 
 
 note: try_cascade, try_ope_cv.py , try_open_cv.py are temp file/ debug files
