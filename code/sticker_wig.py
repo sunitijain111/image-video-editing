@@ -4,7 +4,6 @@ import os
 import numpy as np
 #these are the cascades: thay are already present in the opencv
 cascade_face = cv2.CascadeClassifier(cv2.data.haarcascades +'haarcascade_frontalface_default.xml') 
-cascade_smile = cv2.CascadeClassifier(cv2.data.haarcascades +'haarcascade_smile.xml')
 
 #function ot detect the face
 
