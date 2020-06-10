@@ -22,7 +22,11 @@ def detection(grayscale, img):
        
         # ears
         ear_width= w_face
-        img_ear= cv2.imread('bunny4.png',-1)
+        img_ear= cv2.imread('bunny2.png',-1)
+        # cv2.imshow('image', img_ear)
+        # cv2.waitKey(0) 
+        # cv2.destroyAllWindows()
+       
         h,w,c= img_ear.shape
         ratio= ear_width/w
         w= int(w*ratio)
@@ -37,11 +41,17 @@ def detection(grayscale, img):
         roi_ear= img[y_face-min_d: y_face,x_face:x_face+min_w]
         img_ear= img_ear[0: min_d,0: min_w]
             
-        dst = cv2.addWeighted(roi_ear, 0.8, img_ear, 0.9, 0)
-        img[y_face-min_d: y_face,x_face:x_face+min_w]= dst
-        #cv2.imshow('Video', img)
-        #cv2.waitKey(0) 
-        #cv2.destroyAllWindows()
+        # print(roi_ear.shape)
+        # print(img_ear.shape)
+        
+        
+        bg = img[y_face-min_d: y_face,x_face:x_face+min_w]
+        sg = np.atleast_3d(255 - img_ear[:, :, 3])/255.0
+        np.multiply(bg, sg, out=bg, casting="unsafe")
+        np.add(bg, 255-img_ear[:, :, 0:3] * np.atleast_3d(img_ear[:, :, 3]), out=bg)
+        # put the changed image back into the scene
+        img[y_face-min_d: y_face,x_face:x_face+min_w] = bg    
+        
        
     #return image        
     return img 
