@@ -1,4 +1,5 @@
 import cv2
+#vertical flip
 import datetime
 import os
 import sys
@@ -32,10 +33,15 @@ def flip(img):
     img = cv2.flip(img, 1) #flip horizontlally
     return img
 
+def flip2(img):
+    img = cv2.flip(img, 0) #flip vertically
+    return img
+
 def rotate(img):
     #rotate 90 degrees
     img = cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)
     return img
+
 
 def view(img):
     cv2.imshow('image press any key to close', img)
@@ -67,7 +73,7 @@ def ask_image():
         return [img, img_name]
         
 def choice(img,img_name):
-    print(" enter 1 to resize\n enter 2 to flip\n enter 3 to rotate\n enter 4 to undo\n enter 5 to view image\n enter any other key to exit and save")
+    print(" enter 1 to resize\n enter 2 to flip horizontally\n enter 3 to flip vertically\n enter 4 to rotate \n enter 5 to undo\n enter 6 to view image\n enter any other key to exit and save")
     x= input()
     if x=="1":
         curr= stack[-1]
@@ -83,11 +89,17 @@ def choice(img,img_name):
         choice(img,img_name)  
     elif x=="3":
         curr= stack[-1]
-        curr= rotate(curr)
+        curr=flip2(curr)
         stack.append(curr)
         view(curr)
         choice(img,img_name)
     elif x=="4":
+        curr= stack[-1]
+        curr= rotate(curr)
+        stack.append(curr)
+        view(curr)
+        choice(img,img_name)    
+    elif x=="5":
         if len(stack)== 1:
             print("invalid choice, you are at original image")
             choice(img,img_name)
@@ -95,7 +107,7 @@ def choice(img,img_name):
             stack.pop()
             view(stack[-1])
             choice(img,img_name)
-    elif x=="5"        :
+    elif x=="6"        :
         view(stack[-1])
         choice(img,img_name)
     else:

@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Jun 10 16:55:33 2020
+
+@author: suniti
+"""
+
 import cv2
 import datetime
 import os
@@ -21,8 +29,8 @@ def detection(grayscale, img):
         
 
 
-        img_wig= cv2.imread('hair2.png',-1)
-        
+        img_wig= cv2.imread('temp.jpg',-1)
+        #print(img_wig.shape)
         # cv2.imshow('image', img_wig) 
         # if cv2.waitKey(1) & 0xFF == ord('q'):
         #   break 
@@ -44,15 +52,15 @@ def detection(grayscale, img):
         
         ## adjusing the width & dept
         width, depth, _= img_wig.shape
-        width= int(w_face + 0.1* width)
-        depth= int(h_face* 2/3)
+        width= int(w_face + 0.95* w_face)
+        depth= int(h_face+ 0.9* h_face)
         img_wig= cv2.resize(img_wig, (width, depth))
         
         ## coordinates
         centre_x= x_face+ w_face/2
-        x_wig= int(centre_x-width/2)
+        x_wig= int(centre_x-5*width/9)
         
-        y_wig= int(y_face- (depth*2/3) )
+        y_wig= int(y_face- (depth*1/7) )
         
         ##indexing 
         
@@ -62,25 +70,33 @@ def detection(grayscale, img):
             y_wig=0
         y2=int(y_wig+depth)
         if(y2>= img.shape[0]):
-            y2= img.shape[0]
+            y2= img.shape[0]-1
         x2= int(x_wig+width)
         if(x2>= img.shape[1]):
-            x2= img.shape[1]
+            x2= img.shape[1]-1
            
            
-        # roi_wig= img[y_wig: y2, x_wig: x2]
-        # img_wig= img_wig[0: y2-y_wig, 0:x2-x_wig]    
-              
-        # dst = cv2.addWeighted(roi_wig, 0.8, img_wig, 0.8, 0)
-        # img[y_wig: y2, x_wig: x2]= dst
+        roi_wig= img[y_wig: y2, x_wig: x2]
+        img_wig= img_wig[0: y2-y_wig, 0:x2-x_wig]    
+         
+        #dst = cv2.addWeighted(roi_wig, 0.8, img_wig, 0.8, 0)
+        
+        for x in range(img_wig.shape[1]):
+            for y in range(img_wig.shape[0]):
+                e,f,g= img_wig[y,x]
+                if not(e>=200 and f>=200 and g>=200):
+                    roi_wig[  y,x]=  [e,f,g]
+                    
+                    
+        img[y_wig: y2, x_wig: x2]= roi_wig
        
-        img_wig= img_wig[0: y2-y_wig, 0:x2-x_wig] 
-        bg=  img[y_wig: y2, x_wig: x2]
-        print(img_wig.shape)
-        sg = np.atleast_3d(255 - img_wig[:, :,3])/255.0
-        np.multiply(bg, sg, out=bg, casting="unsafe")
-        np.add(bg, 255-img_wig[:, :,0:3] * np.atleast_3d(img_wig[:, :,3]), out=bg)
-        img[y_wig: y2, x_wig: x2] = bg
+        # img_wig= img_wig[0: y2-y_wig, 0:x2-x_wig] 
+        # bg=  img[y_wig: y2, x_wig: x2]
+        # print(img_wig.shape)
+        # sg = np.atleast_3d(255 - img_wig[:, :,3])/255.0
+        # np.multiply(bg, sg, out=bg, casting="unsafe")
+        # np.add(bg, 255-img_wig[:, :,0:3] * np.atleast_3d(img_wig[:, :,3]), out=bg)
+        # img[y_wig: y2, x_wig: x2] = bg
         
         return img 
     #return image        
