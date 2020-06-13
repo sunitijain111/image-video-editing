@@ -1,4 +1,4 @@
-1.run try_cascade.py , it tryin g out cscade featuresi poencv
+1.run try_cascade.py , it trying out cscade features in oponcv
 2. press q to quit
 3. requirements: opencv and python
 4. terminal command: python try_cascade.py
@@ -28,5 +28,9 @@
 
 1. choice_edit_image.py . it edits image to your choice, resize, flip, rotate, view, undo, etc.
 
+1. run low_light_photography.py . it enhances the low ligth photograph.
+2. requirements a folder containing multiple shots of same object. the number may vary from 4- 100.
+
+1. run image to sticker.py .it converts your image to sketch . adkust the kernel to give a better result.
 
 note: try_cascade, try_ope_cv.py , try_open_cv.py are temp file/ debug files
