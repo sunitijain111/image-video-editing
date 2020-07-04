@@ -1,40 +1,29 @@
 import cv2
-#vertical flip
-import datetime
-import os
 import sys
 cascade_face = cv2.CascadeClassifier(cv2.data.haarcascades +'haarcascade_frontalface_default.xml') 
 
 def resize(img):
-    #returns the face
-    grayscale = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) 
-    face = cascade_face.detectMultiScale(grayscale, 1.3, 5)
-    x_face, y_face, w_face, h_face= 0,0,0,0
-    for (a,b,c,d) in face:
-       x_face, y_face, w_face, h_face= a,b,c,d 
-    if x_face==0 and  y_face==0 and w_face==0 and h_face  ==0:
-        print(" no face detected ")
-        return img
+    x,y,w,d= map(int, input("enter the x-y coordinates , width ad height\n").split())
     
-    #extending face dept
-    y_face= max(0,y_face-20)
-    h_face= min(y_face+h_face+20, img.shape[1])
-    
-    #extending face width
-    x_face= max(0,x_face-20)
-    w_face= min(x_face+w_face+20, img.shape[0]) 
-    
-    roi_face= img[y_face: y_face+ h_face, x_face: x_face+ w_face]
-    
-    #returning roi
+    if y+d>img.shape[0]:
+         d= img.shape[0]-y
+         
+    if x+ w>img.shape[1]    :
+        w= img.shape[1]-x
+        
+    roi_face= img[y :y+ d, x: x+ w]
     return roi_face
 
 def flip(img):
-    img = cv2.flip(img, 1) #flip horizontlally
+    img = cv2.flip(img, 1) #flip horizontally
     return img
 
 def flip2(img):
     img = cv2.flip(img, 0) #flip vertically
+    return img
+	
+def flip3(img):
+    img = cv2.flip(img, -1) #flip on both axes
     return img
 
 def rotate(img):
@@ -42,9 +31,12 @@ def rotate(img):
     img = cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)
     return img
 
-
+c=0
 def view(img):
     cv2.imshow('image press any key to close', img)
+    global c
+    cv2.imwrite("edited"+str(c)+img_name,stack[-1])
+    c+=1
     cv2.waitKey(0) 
     cv2.destroyAllWindows()
         
@@ -73,7 +65,7 @@ def ask_image():
         return [img, img_name]
         
 def choice(img,img_name):
-    print(" enter 1 to resize\n enter 2 to flip horizontally\n enter 3 to flip vertically\n enter 4 to rotate \n enter 5 to undo\n enter 6 to view image\n enter any other key to exit and save")
+    print(" enter 1 to resize\n enter 2 to flip horizontally\n enter 3 to flip vertically\n enter 4 to flip on both axes \n enter 5 to rotate \n enter 6 to undo\n enter 7 to view image\n enter any other key to exit and save")
     x= input()
     if x=="1":
         curr= stack[-1]
@@ -95,11 +87,17 @@ def choice(img,img_name):
         choice(img,img_name)
     elif x=="4":
         curr= stack[-1]
+        curr=flip3(curr)
+        stack.append(curr)
+        view(curr)
+        choice(img,img_name)
+    elif x=="5":
+        curr= stack[-1]
         curr= rotate(curr)
         stack.append(curr)
         view(curr)
         choice(img,img_name)    
-    elif x=="5":
+    elif x=="6":
         if len(stack)== 1:
             print("invalid choice, you are at original image")
             choice(img,img_name)
@@ -107,7 +105,7 @@ def choice(img,img_name):
             stack.pop()
             view(stack[-1])
             choice(img,img_name)
-    elif x=="6"        :
+    elif x=="7"        :
         view(stack[-1])
         choice(img,img_name)
     else:
