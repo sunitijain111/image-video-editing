@@ -30,3 +30,5 @@ for x in range(w):
       except IndexError:
         #print('naa')
         continue
+        
+        read blogs for clearity.
